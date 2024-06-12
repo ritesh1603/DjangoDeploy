@@ -53,7 +53,7 @@ pipeline {
         stage('Notify and Trigger Next Build') {
             steps {
                 script {
-                    build(job: "MultiBranchDeployment_Django" + "/" + "${env.BRANCH_TO_BUILD}".replaceAll('/', '%2F'))
+                    build(job: "MultiBranchDeployment_Django1" + "/" + "${env.BRANCH_TO_BUILD}".replaceAll('/', '%2F'))
                 }
             }
         }
