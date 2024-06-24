@@ -12,7 +12,7 @@ pipeline {
         REPO_URL = 'https://github.com/ritesh1603/DjangoDeploy.git'
         SONARQUBE_SERVER = 'SonarQube_Server'
         SONARQUBE_TOKEN = credentials('Sonar_jenkins')
-        SONAR_SCANNER_PATH = 'D:\Downloads\sonar-scanner-cli-6.0.0.4432-windows\sonar-scanner-6.0.0.4432-windows\bin'
+        SONAR_SCANNER_PATH = 'D:\\Downloads\\sonar-scanner-cli-6.0.0.4432-windows\\sonar-scanner-6.0.0.4432-windows\\bin'
     }
 
     stages {
