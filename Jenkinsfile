@@ -10,6 +10,8 @@ pipeline {
         PSCP_PATH = 'C:\\Program Files\\PuTTY\\pscp.exe'
         DEPLOY_PASSWORD = 'vagrant'
         REPO_URL = 'https://github.com/ritesh1603/DjangoDeploy.git'
+        SONARQUBE_SERVER = 'SonarQube_Server'
+        SONARQUBE_TOKEN = credentials('Sonar_jenkins')
     }
 
     stages {
@@ -58,6 +60,15 @@ pipeline {
         //         }
         //     }
         // }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube_Server') { 
+                    bat 'sonar-scanner -Dsonar.projectKey=sonar-project -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_SERVER} -Dsonar.login=${SONARQUBE_TOKEN}' 
+                }
+            }
+        }
+
+        
         stage('Run Ansible Playbook') {
             steps {
                 bat """
