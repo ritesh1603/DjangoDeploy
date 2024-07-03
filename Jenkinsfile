@@ -10,7 +10,7 @@ pipeline {
         PSCP_PATH = 'C:\\Program Files\\PuTTY\\pscp.exe'
         DEPLOY_PASSWORD = 'vagrant'
         REPO_URL = 'https://github.com/ritesh1603/DjangoDeploy.git'
-        SONARQUBE_SERVER = 'https://e9c3-104-28-211-37.ngrok-free.app/'
+        SONARQUBE_SERVER = 'http://192.168.33.11:9000/'
         SONARQUBE_TOKEN = credentials('Sonar_jenkins')
         SONAR_SCANNER_PATH = 'D:\\Downloads\\sonar-scanner-cli-6.0.0.4432-windows\\sonar-scanner-6.0.0.4432-windows\\bin'
     }
