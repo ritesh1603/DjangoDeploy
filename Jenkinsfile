@@ -64,6 +64,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 bat """
+                pip install django django-debug-toolbar
                 python manage.py test
                 """
             }
