@@ -61,6 +61,13 @@ pipeline {
         //         }
         //     }
         // }
+        stage('Run Unit Tests') {
+            steps {
+                bat """
+                python manage.py test
+                """
+            }
+        }
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube_Server') { 
