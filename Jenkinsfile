@@ -65,6 +65,7 @@ pipeline {
             steps {
                 bat """
                 pip install django django-debug-toolbar
+                python manage.py migrate
                 python manage.py test
                 """
             }
