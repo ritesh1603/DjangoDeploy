@@ -81,7 +81,7 @@ pipeline {
                       to: "cloudidpatil@gmail.com"
                     )
                   input(
-                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitter: 'rp_dev'
+                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitter: 'rp_dev',
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
