@@ -44,23 +44,23 @@ pipeline {
                 """
             }
         }
-        // stage('Approval') {
-        //   steps {
-        //       script {
-        //           def userInput = input(
-        //               id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy',
-        //               parameters: [
-        //                   string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
-        //               ]
-        //           )
-        //           emailext(
-        //               subject: "Deployment Approval for ${env.BRANCH_NAME}",
-        //               body: "The deployment for ${env.BRANCH_NAME} has been approved with the following reason: ${userInput}",
-        //               recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-        //             )
-        //         }
-        //     }
-        // }
+        stage('Approval') {
+          steps {
+              script {
+                  def userInput = input(
+                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy',
+                      parameters: [
+                          string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
+                      ]
+                  )
+                  emailext(
+                      subject: "Deployment Approval for ${env.BRANCH_NAME}",
+                      body: "The deployment for ${env.BRANCH_NAME} has been approved with the following reason: ${userInput}",
+                      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                    )
+                }
+            }
+        }
         stage('Run Unit Tests') {
             steps {
                 bat """
