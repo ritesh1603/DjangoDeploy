@@ -44,29 +44,6 @@ pipeline {
                 """
             }
         }
-        stage('Approval') {
-          steps {
-              script {
-                  // def userInput = input(
-                  //     id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy',
-                  //     parameters: [
-                  //         string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
-                  //     ]
-                  // )
-                  emailext(
-                      subject: "Deployment Approval for ${env.BRANCH_NAME}",
-                      body: "Please approve deployment for ${env.BRANCH_NAME} at url: $BUILD_URL ",
-                      to: "cloudidpatil@gmail.com"
-                    )
-                  input(
-                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy',
-                      parameters: [
-                          string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
-                      ]
-                  )
-                }
-            }
-        }
         stage('Run Unit Tests') {
             steps {
                 bat """
@@ -86,7 +63,23 @@ pipeline {
                 }
             }
         }
-
+        stage('Approval') {
+          steps {
+              script {
+                  emailext(
+                      subject: "Deployment Approval for ${env.BRANCH_NAME}",
+                      body: "The Tests and sonarqube analysis report for ${env.BRANCH_NAME} was successful. Please approve deployment at url: $BUILD_URL ",
+                      to: "cloudidpatil@gmail.com"
+                    )
+                  input(
+                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy',
+                      parameters: [
+                          string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
+                      ]
+                  )
+                }
+            }
+        }
         
         stage('Run Ansible Playbook') {
             steps {
@@ -97,8 +90,6 @@ pipeline {
         }
 
         
-
-
         stage('Notify and Trigger Next Build') {
             steps {
                 script {
