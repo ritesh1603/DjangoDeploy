@@ -13,6 +13,18 @@ pipeline {
     }
 
     stages {
+        stage('Notify') {
+          steps {
+              script {
+                  emailext(
+                      subject: " Build for ${env.BRANCH_NAME} started",
+                      body: "The Build proces for ${env.BRANCH_NAME} has been started. Check the status at url: $BUILD_URL ",
+                      to: "cloudidpatil@gmail.com"
+                    )
+                }
+            }
+        }
+        
         stage('Initialize') {
             steps {
                 script {
@@ -41,13 +53,15 @@ pipeline {
             }
         }
 
-        stage('Run Ansible Playbook') {
-            steps {
-                bat """
-                "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" "ansible-playbook /home/vagrant/ansible_project/django/${env.BRANCH_NAME}-deployment-playbook.yml"
-                """
-            }
-        }
+
+        
+        // stage('Run Ansible Playbook') {
+        //     steps {
+        //         bat """
+        //         "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" "ansible-playbook /home/vagrant/ansible_project/django/${env.BRANCH_NAME}-deployment-playbook.yml"
+        //         """
+        //     }
+        // }
     }
 
     post {
