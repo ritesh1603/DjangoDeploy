@@ -53,7 +53,7 @@ pipeline {
                   //         string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                   //     ]
                   // )
-                  mail(
+                  emailext(
                       subject: "Deployment Approval for ${env.BRANCH_NAME}",
                       body: "Please approve deployment for ${env.BRANCH_NAME} at url: $BUILD_URL ",
                       to: "cloudidpatil@gmail.com"
