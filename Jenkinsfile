@@ -50,13 +50,13 @@ pipeline {
             }
         }
 
-        stage('Cache SSH Host Key') {
-            steps {
-                bat """
-                echo y | "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" exit
-                """
-            }
-        }
+        // stage('Cache SSH Host Key') {
+        //     steps {
+        //         bat """
+        //         echo y | "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" exit
+        //         """
+        //     }
+        // }
         stage('Run Unit Tests') {
             steps {
                 bat """
