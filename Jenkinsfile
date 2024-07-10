@@ -16,6 +16,19 @@ pipeline {
     }
 
     stages {
+        
+        stage('Notify') {
+          steps {
+              script {
+                  emailext(
+                      subject: "Build for ${env.BRANCH_NAME} started",
+                      body: "The Build process for ${env.BRANCH_NAME} has been started. Check the status at url: $BUILD_URL ",
+                      to: "cloudidpatil@gmail.com"
+                    )
+                }
+            }
+        }
+        
         stage('Initialize') {
             steps {
                 script {
@@ -67,12 +80,12 @@ pipeline {
           steps {
               script {
                   emailext(
-                      subject: "Deployment Approval for ${env.BRANCH_NAME}",
-                      body: "The Tests and sonarqube analysis report for ${env.BRANCH_NAME} was successful. Please approve deployment at url: $BUILD_URL ",
+                      subject: "Deployment Approval for ${env.BRANCH_TO_BUILD}",
+                      body: "The Deployment for ${env.BRANCH_NAME} was successful. Please approve deployment for ${env.BRANCH_TO_BUILD} : $BUILD_URL ",
                       to: "cloudidpatil@gmail.com"
                     )
                   input(
-                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy',
+                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy', submitter: 'rp_dev'
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
@@ -81,13 +94,13 @@ pipeline {
             }
         }
         
-        stage('Run Ansible Playbook') {
-            steps {
-                bat """
-                "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" "ansible-playbook /home/vagrant/ansible_project/django/${env.BRANCH_NAME}-deployment-playbook.yml"
-                """
-            }
-        }
+        // stage('Run Ansible Playbook') {
+        //     steps {
+        //         bat """
+        //         "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" "ansible-playbook /home/vagrant/ansible_project/django/${env.BRANCH_NAME}-deployment-playbook.yml"
+        //         """
+        //     }
+        // }
 
         
         stage('Notify and Trigger Next Build') {
