@@ -18,7 +18,7 @@ pipeline {
               script {
                   emailext(
                       subject: " Build for ${env.BRANCH_NAME} started",
-                      body: "The Build proces for ${env.BRANCH_NAME} has been started. Check the status at url: $BUILD_URL ",
+                      body: "The Build process for ${env.BRANCH_NAME} has been started. Check the status at url: $BUILD_URL ",
                       to: "cloudidpatil@gmail.com"
                     )
                 }
@@ -81,7 +81,7 @@ pipeline {
                       to: "cloudidpatil@gmail.com"
                     )
                   input(
-                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy', submitter: 'rp_dev'
+                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitter: 'rp_dev'
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
