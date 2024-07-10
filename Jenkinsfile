@@ -53,7 +53,23 @@ pipeline {
             }
         }
 
-
+        stage('Approval') {
+          steps {
+              script {
+                  emailext(
+                      subject: "Deployment Approval for ${env.BRANCH_NAME}",
+                      body: " Please approve deployment for ${env.BRANCH_NAME} : $BUILD_URL ",
+                      to: "cloudidpatil@gmail.com"
+                    )
+                  input(
+                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy', submitter: 'rp_dev'
+                      parameters: [
+                          string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
+                      ]
+                  )
+                }
+            }
+        }
         
         // stage('Run Ansible Playbook') {
         //     steps {
