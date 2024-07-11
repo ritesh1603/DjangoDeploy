@@ -103,7 +103,7 @@ pipeline {
                           def abortsignal=checkUserRole(approval.submitter, 'devops')
                           if(abortsignal)
                           {
-                              error("deployment aborted by devops member ${approval.submitter} due to ${approval.approvalReason}) 
+                              error("deployment aborted by devops member ${approval.submitter} due to ${approval.approvalReason}") 
                           }
                           else
                           {
