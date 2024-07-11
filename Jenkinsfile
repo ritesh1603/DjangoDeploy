@@ -84,12 +84,14 @@ pipeline {
                       body: "The Deployment for ${env.BRANCH_NAME} was successful. Please approve deployment for ${env.BRANCH_TO_BUILD} : $BUILD_URL ",
                       to: "cloudidpatil@gmail.com"
                     )
-                  input(
-                      id: 'userInput', message: 'Do you want to deploy to Staging?', ok: 'Deploy', submitter: 'rp_devops',
+                  def approval = input(
+                      id: 'userInput', message: 'Do you want to deploy to staging?', ok: 'Deploy', submitter: 'rp_devops,rp_devops2', submitterParameter:’submitter’,
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
                   )
+                   echo "Approval given by ${approval.submitter} due to ${approval['approvalReason']}"
+
                 }
             }
         }
