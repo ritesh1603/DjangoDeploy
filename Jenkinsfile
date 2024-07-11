@@ -87,7 +87,7 @@ pipeline {
                   // while(!approvalGiven)
                   // {
                       def approval = input(
-                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitter:'rp_devops,rp_devops2' , submitterparameter:'submitter',
+                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitter:'rp_devops,rp_devops2' , submitterParameter:'submitter',
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
@@ -96,7 +96,7 @@ pipeline {
                       // if (approvalGiven) {
                           // echo "You need to be part of devops role to submit this. Please try again."
                       // }
-                      echo "Approval given by ${approval.submitter} due to ${approval.reason}"
+                      echo "Approval given by ${approval.submitter} due to ${approval['approvalReason']}"
                   }
                   // if (!checkUserRole(approval.submitter, 'devops')) {
                   //       error("You need to be part of devops role to submit this.")
