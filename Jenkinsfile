@@ -14,6 +14,7 @@ pipeline {
    
     stages {
          stage('Notify') {
+             agent none
           steps {
               script {
                   emailext(
@@ -80,12 +81,15 @@ pipeline {
                       body: "The deployment for ${env.BRANCH_NAME} was successful. Please approve deployment for ${env.BRANCH_TO_BUILD} at url: {$BUILD_URL}/pipeline-console ",
                       to: "cloudidpatil@gmail.com"
                     )
-                  input(
-                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitter: 'devops',
+                  def approval = input(
+                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitterParameter: 'submitter',
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
                   )
+                  if (!checkUserRole(approval.submitter, 'devops')) {
+                        error("You need to be part of devops role to submit this.")
+                    }
                 }
             }
         }
@@ -107,4 +111,12 @@ pipeline {
             echo "Build and deployment for ${env.BRANCH_NAME} failed."
         }
     }
+}
+
+def checkUserRole(userId, requiredRole) {
+    def roleStr = sh(script: """
+        curl -s -u 'ritesh:11b229edeabcec0b74950668da72412c30' \
+        '${JENKINS_URL}/user/${userId}/roles'
+        """, returnStdout: true).trim()
+    return roleStr.contains(requiredRole)
 }
