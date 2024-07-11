@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     //comment to check github webhook integration with jenkins 
     environment {
         DEPLOY_USER = 'vagrant'
@@ -26,7 +26,6 @@ pipeline {
         }
         
         stage('Initialize') {
-            agent any
             steps {
                 script {
                     env.DEPLOY_PATH = '/home/vagrant/dev/DjangoApp'
@@ -36,7 +35,6 @@ pipeline {
         }
 
         stage('Clone Repository') {
-            agent any
             steps {
                 script {
                     git(
@@ -57,7 +55,6 @@ pipeline {
         // }
         
         stage('Run Unit Tests') {
-            agent any
             steps {
                 bat """
                 pip install django django-debug-toolbar
@@ -94,7 +91,6 @@ pipeline {
         }
         
         stage('Notify and Trigger Next Build') {
-            agent any
             steps {
                 script {
                     build(job: "MultiBranchDeployment_Django1" + "/" + "${env.BRANCH_TO_BUILD}".replaceAll('/', '%2F'))
