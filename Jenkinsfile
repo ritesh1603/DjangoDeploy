@@ -86,7 +86,6 @@ pipeline {
                   def approvalGiven = false
                   while(!approvalGiven)
                   {
-                      try {
                       def approval = input(
                       id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitterParameter: 'submitter',
                       parameters: [
@@ -96,19 +95,6 @@ pipeline {
                       approvalGiven=checkUserRole(approval.submitter, 'devops')
                       if (!approvalGiven) {
                           echo "You need to be part of devops role to submit this. Please try again."
-                      }
-                      }catch (Exception e)
-                      {
-                          def aborter = e.getCauses().get(0).getUser()
-                          def abortsignal=checkUserRole(aborter, 'devops')
-                          if(abortsignal)
-                          {
-                              error("deployment aborted by devops member ${aborter}") 
-                          }
-                          else
-                          {
-                              echo "Abort attempt by non devops member ${aborter}!"
-                          }
                       }
                   }
                   // if (!checkUserRole(approval.submitter, 'devops')) {
