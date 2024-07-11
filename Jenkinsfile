@@ -1,5 +1,5 @@
 pipeline {
-    
+    agent none
     //comment to check github webhook integration with jenkins 
     environment {
         DEPLOY_USER = 'vagrant'
@@ -14,8 +14,6 @@ pipeline {
    
     stages {
          stage('Notify') {
-
-          agent none
           steps {
               script {
                   emailext(
@@ -78,7 +76,6 @@ pipeline {
         // }
 
         stage('Approval') {
-            agent none
           steps {
               script {
                   emailext(
