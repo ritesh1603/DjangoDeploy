@@ -13,6 +13,7 @@ pipeline {
         SONARQUBE_SERVER = 'http://192.168.33.11:9000/'
         SONARQUBE_TOKEN = credentials('Sonar_jenkins')
         SONAR_SCANNER_PATH = 'D:\\Downloads\\sonar-scanner-cli-6.0.0.4432-windows\\sonar-scanner-6.0.0.4432-windows\\bin'
+        VERSION_NUMBER= 'v1.1'
     }
 
     stages {
@@ -85,7 +86,14 @@ pipeline {
         //         """
         //     }
         // }
-        
+        stage('Tag Branch') {
+            steps {
+                    bat """
+                    git tag ${VERSION_NUMBER}
+                    git push origin ${VERSION_NUMBER}
+                    """
+            }
+        }
         stage('Approval') {
           steps {
               script {
