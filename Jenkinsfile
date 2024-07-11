@@ -76,6 +76,16 @@ pipeline {
                 }
             }
         }
+       
+        
+        // stage('Run Ansible Playbook') {
+        //     steps {
+        //         bat """
+        //         "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" "ansible-playbook /home/vagrant/ansible_project/django/${env.BRANCH_NAME}-deployment-playbook.yml"
+        //         """
+        //     }
+        // }
+        
         stage('Approval') {
           steps {
               script {
@@ -95,15 +105,6 @@ pipeline {
                 }
             }
         }
-        
-        // stage('Run Ansible Playbook') {
-        //     steps {
-        //         bat """
-        //         "$PLINK_PATH" -pw "$DEPLOY_PASSWORD" "$DEPLOY_USER@$DEPLOY_HOST" "ansible-playbook /home/vagrant/ansible_project/django/${env.BRANCH_NAME}-deployment-playbook.yml"
-        //         """
-        //     }
-        // }
-
         
         stage('Notify and Trigger Next Build') {
             steps {
