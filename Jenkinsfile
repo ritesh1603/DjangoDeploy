@@ -92,11 +92,23 @@ pipeline {
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
-                  )
+                      )
                       approvalGiven=checkUserRole(approval.submitter, 'devops')
+                      if (!approvalGiven) {
+                          echo "You need to be part of devops role to submit this. Please try again."
+                      }
                       }catch (Exception e)
                       {
-                          echo "You need to be part of devops role to submit this. Please try again."
+
+                          def abortsignal=checkUserRole(approval.submitter, 'devops')
+                          if(abortsignal)
+                          {
+                              error("deployment aborted by devops member ${approval.submitter} due to ${approval.approvalReason}) 
+                          }
+                          else
+                          {
+                              echo "Abort attempt by non devops member ${approval.submitter}!"
+                          }
                       }
                   }
                   // if (!checkUserRole(approval.submitter, 'devops')) {
