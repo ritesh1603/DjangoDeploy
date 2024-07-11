@@ -114,9 +114,9 @@ pipeline {
 }
 
 def checkUserRole(userId, requiredRole) {
-    def roleStr = sh(script: """
-        curl -s -u 'ritesh:11b229edeabcec0b74950668da72412c30' \
-        '${JENKINS_URL}/user/${userId}/roles'
-        """, returnStdout: true).trim()
+    def roleStr = roleStr = bat(script: """
+            curl -s -u "your_jenkins_user:your_generated_api_token" ^
+            "%JENKINS_URL%/user/${userId}/roles"
+            """, returnStdout: true).trim()
     return roleStr.contains(requiredRole)
 }
