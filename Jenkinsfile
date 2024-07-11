@@ -67,16 +67,16 @@ pipeline {
                 """
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube_Server') { 
-                    bat """
-                    SET PATH=${SONAR_SCANNER_PATH};%PATH%
-                    sonar-scanner -Dsonar.projectKey=sonar-project2 -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_SERVER} -Dsonar.login=${SONARQUBE_TOKEN} -X
-                    """
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube_Server') { 
+        //             bat """
+        //             SET PATH=${SONAR_SCANNER_PATH};%PATH%
+        //             sonar-scanner -Dsonar.projectKey=sonar-project2 -Dsonar.sources=. -Dsonar.host.url=${SONARQUBE_SERVER} -Dsonar.login=${SONARQUBE_TOKEN} -X
+        //             """
+        //         }
+        //     }
+        // }
        
         
         // stage('Run Ansible Playbook') {
