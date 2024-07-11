@@ -19,7 +19,7 @@ pipeline {
               script {
                   emailext(
                       subject: " Build for ${env.BRANCH_NAME} started",
-                      body: "The Build process for ${env.BRANCH_NAME} has been started. Check the status at url: ${BUILD_URL}/pipeline-console ",
+                      body: "The Build process for ${env.BRANCH_NAME} has been started. Check the status at url: $BUILD_URL/pipeline-console ",
                       to: "cloudidpatil@gmail.com"
                     )
                 }
@@ -78,7 +78,7 @@ pipeline {
               script {
                   emailext(
                       subject: "Deployment Approval for ${env.BRANCH_TO_BUILD}",
-                      body: "The deployment for ${env.BRANCH_NAME} was successful. Please approve deployment for ${env.BRANCH_TO_BUILD} at url: {$BUILD_URL}/pipeline-console ",
+                      body: "The deployment for ${env.BRANCH_NAME} was successful. Please approve deployment for ${env.BRANCH_TO_BUILD} at url: $BUILD_URL/pipeline-console ",
                       to: "cloudidpatil@gmail.com"
                     )
                   def approval = input(
