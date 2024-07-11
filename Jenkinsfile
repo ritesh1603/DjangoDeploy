@@ -99,15 +99,15 @@ pipeline {
                       }
                       }catch (Exception e)
                       {
-
-                          def abortsignal=checkUserRole(approval.submitter, 'devops')
+                          def aborter = e.getCauses().get(0).getUser()
+                          def abortsignal=checkUserRole(aborter, 'devops')
                           if(abortsignal)
                           {
-                              error("deployment aborted by devops member ${approval.submitter} due to ${approval.approvalReason}") 
+                              error("deployment aborted by devops member ${aborter}") 
                           }
                           else
                           {
-                              echo "Abort attempt by non devops member ${approval.submitter}!"
+                              echo "Abort attempt by non devops member ${aborter}!"
                           }
                       }
                   }
