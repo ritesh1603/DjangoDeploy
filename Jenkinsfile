@@ -10,6 +10,8 @@ pipeline {
         PSCP_PATH = 'C:\\Program Files\\PuTTY\\pscp.exe'
         DEPLOY_PASSWORD = 'vagrant'
         REPO_URL = 'https://github.com/ritesh1603/DjangoDeploy.git'
+        JENKINS_USER = 'ritesh'
+        API_TOKEN= '11f052970dbd36d531590ce20e8a401b4a'
     }
    
     stages {
@@ -115,7 +117,7 @@ pipeline {
 
 def checkUserRole(userId, requiredRole) {
     def roleStr = roleStr = bat(script: """
-            curl -s -u "your_jenkins_user:your_generated_api_token" ^
+            curl -s -u "$JENKINS_USER:$API_TOKEN" ^
             "%JENKINS_URL%/user/${userId}/roles"
             """, returnStdout: true).trim()
     return roleStr.contains(requiredRole)
