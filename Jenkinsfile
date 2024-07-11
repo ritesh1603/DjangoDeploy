@@ -83,24 +83,25 @@ pipeline {
                       body: "The deployment for ${env.BRANCH_NAME} was successful. Please approve deployment for ${env.BRANCH_TO_BUILD} at url: $BUILD_URL/pipeline-console ",
                       to: "cloudidpatil@gmail.com"
                     )
-                  def approvalGiven = false
-                  while(!approvalGiven)
-                  {
+                  // def approvalGiven = false
+                  // while(!approvalGiven)
+                  // {
                       def approval = input(
-                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitterParameter: 'submitter',
+                      id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitter:'rp_devops,rp_devops2' , submitterparameter:'submitter',
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
                       )
-                      approvalGiven=checkUserRole(approval.submitter, 'devops')
-                      if (!approvalGiven) {
-                          echo "You need to be part of devops role to submit this. Please try again."
-                      }
+                      // approvalGiven=checkUserRole(approval.submitter, 'devops')
+                      // if (approvalGiven) {
+                          // echo "You need to be part of devops role to submit this. Please try again."
+                      // }
+                      echo "Approval given by ${approval.submitter} due to ${approval.reason}"
                   }
                   // if (!checkUserRole(approval.submitter, 'devops')) {
                   //       error("You need to be part of devops role to submit this.")
                   //   }
-                }
+                // }
             }
         }
         
@@ -123,10 +124,10 @@ pipeline {
     }
 }
 
-def checkUserRole(userId, requiredRole) {
-    def roleStr = roleStr = bat(script: """
-            curl -s -u "$JENKINS_USER:$API_TOKEN" ^
-            "%JENKINS_URL%/user/${userId}/roles"
-            """, returnStdout: true).trim()
-    return roleStr.contains(requiredRole)
-}
+// def checkUserRole(userId, requiredRole) {
+//     def roleStr = roleStr = bat(script: """
+//             curl -s -u "$JENKINS_USER:$API_TOKEN" ^
+//             "%JENKINS_URL%/user/${userId}/roles"
+//             """, returnStdout: true).trim()
+//     return roleStr.contains(requiredRole)
+// }
