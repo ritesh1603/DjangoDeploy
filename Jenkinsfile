@@ -83,15 +83,25 @@ pipeline {
                       body: "The deployment for ${env.BRANCH_NAME} was successful. Please approve deployment for ${env.BRANCH_TO_BUILD} at url: $BUILD_URL/pipeline-console ",
                       to: "cloudidpatil@gmail.com"
                     )
-                  def approval = input(
+                  def approvalGiven = false
+                  while(!approvalGiven)
+                  {
+                      try {
+                      def approval = input(
                       id: 'userInput', message: 'Do you want to deploy to UAT?', ok: 'Deploy', submitterParameter: 'submitter',
                       parameters: [
                           string(defaultValue: '', description: 'Please provide a reason for approval:', name: 'approvalReason')
                       ]
                   )
-                  if (!checkUserRole(approval.submitter, 'devops')) {
-                        error("You need to be part of devops role to submit this.")
-                    }
+                      approvalGiven=checkUserRole(approval.submitter, 'devops')
+                      }catch (Exception e)
+                      {
+                          echo "You need to be part of devops role to submit this. Please try again."
+                      }
+                  }
+                  // if (!checkUserRole(approval.submitter, 'devops')) {
+                  //       error("You need to be part of devops role to submit this.")
+                  //   }
                 }
             }
         }
